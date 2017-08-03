@@ -1,20 +1,25 @@
 import turtle
-border=turtle.clone()
-border.goto(400,0)
-border.goto(400,250)
-border.goto(250,-400)
-border.goto(-250,-400)
+import random
+#We'll need this later in the lab
 
-import random #We'll need this later in the lab
 turtle.tracer(1,0) #This helps the turtle move more smoothly
-SIZE_X=800
+SIZE_X=500
 SIZE_Y=500
-turtle.setup(SIZE_X, SIZE_Y) #
+turtle.setup(SIZE_X+50,SIZE_Y+50) #
 #Curious? It's the turtle window
 #size.
+turtle_border = turtle.clone()
+turtle_border.penup()
+turtle_border.goto(-250,-250)
+turtle.pendown()
+turtle.goto(-250,250)
+##turtle.goto(250,250)
+##turtle.goto(250,-250)
+##turtle.hideturtle
+
 turtle.penup()
 SQUARE_SIZE = 20
-START_LENGTH = 10
+START_LENGTH = 1
 #Initialize lists
 pos_list = []
 stamp_list = []
@@ -50,10 +55,10 @@ LEFT = 1
 DOWN = 2
 RIGHT  =3
 direction = UP
-UP_EDGE = 250
-DOWN_EDGE = -250
-RIGHT_EDGE = 400
-LEFT_EDGE = -400
+UP_EDGE = SIZE_Y / 2
+DOWN_EDGE = -(SIZE_Y / 2)
+RIGHT_EDGE = SIZE_X / 2
+LEFT_EDGE = -(SIZE_X / 2)
 
 def up():
     global direction
@@ -82,16 +87,17 @@ turtle.onkeypress(right,RIGHT_ARROW)
 turtle.listen()
 
 def make_food():
-    min_x=-int(SIZE_X/2/SQUARE_SIZE)+1
-    max_x=int(SIZE_X/2/SQUARE_SIZE)-1
-    min_y=-int(SIZE_Y/2/SQUARE_SIZE)-1
-    max_y= int(SIZE_Y/2/SQUARE_SIZE)+1
-    food_x = random.randint(min_x,max_x)*SQUARE_SIZE
-    food_y = random.randint(min_y,max_y)*SQUARE_SIZE
+    min_x=-int(SIZE_X/2/SQUARE_SIZE)## -12
+    max_x=int(SIZE_X/2/SQUARE_SIZE) ## 12
+    min_y=-int(SIZE_Y/2/SQUARE_SIZE)## -12
+    max_y= int(SIZE_Y/2/SQUARE_SIZE) ##-1 12
+    food_x = random.randint(min_x,max_x)*SQUARE_SIZE ##-240
+    food_y = random.randint(min_y,max_y)*SQUARE_SIZE ## -240
     food.goto(food_x,food_y)
     food_pos.append((food_x,food_y))
     stamp = food.stamp()
     food_stamps.append(stamp)
+    
 
 def move_snake():
     global direction
@@ -142,9 +148,7 @@ def move_snake():
         food_stamps.pop(food_ind)
         print("You have eaten the food!")
         make_food()
-        
-    if snake.pos() in food_pos == True:
-       pass
+        stamp_list.append(new_stamp)
     else:
         old_stamp=stamp_list.pop(0)
         snake.clearstamp(old_stamp)
