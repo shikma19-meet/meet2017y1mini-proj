@@ -3,6 +3,7 @@ import random
 #We'll need this later in the lab
 
 turtle.tracer(1,0) #This helps the turtle move more smoothly
+turtle.fillcolor("blue")
 SIZE_X=500
 SIZE_Y=500
 turtle.setup(SIZE_X+50,SIZE_Y+50) #
@@ -11,11 +12,11 @@ turtle.setup(SIZE_X+50,SIZE_Y+50) #
 turtle_border = turtle.clone()
 turtle_border.penup()
 turtle_border.goto(-250,-250)
-turtle.pendown()
-turtle.goto(-250,250)
-##turtle.goto(250,250)
-##turtle.goto(250,-250)
-##turtle.hideturtle
+turtle_border.pendown()
+turtle_border.goto(-250,250)
+turtle_border.goto(250,250)
+turtle_border.goto(250,-250)
+turtle_border.goto(-250,-250)
 
 turtle.penup()
 SQUARE_SIZE = 20
@@ -27,9 +28,15 @@ food_pos = []
 food_stamps = []
 #Set up positions (x,y) of boxes that make up the snake
 snake = turtle.clone()
-snake.shape("square")
+snake.shape("circle")
+score=turtle.clone()
+x=0
+
+
+    
+    
+    
 #Hide the turtle object (it's an arrow - we don't need to see it)
-turtle.hideturtle()
 for snake_1 in range(START_LENGTH):
     x_pos=snake.pos()[0]
     y_pos=snake.pos()[1]
@@ -134,13 +141,13 @@ def move_snake():
     if new_pos in pos_list[:-1]:
         print("You die! Game over")
         quit()
-        
+       
     my_pos=snake.pos()
     pos_list.append(my_pos)
     #pos_list.pop(0)
     new_stamp = snake.stamp()
     stamp_list.append(new_stamp)
-    global food_stamps , food_pos
+    global food_stamps , food_pos,x
     if snake.pos() in food_pos:
         food_ind = food_pos.index (snake.pos())
         food.clearstamp (food_stamps[food_ind])
@@ -149,10 +156,18 @@ def move_snake():
         print("You have eaten the food!")
         make_food()
         stamp_list.append(new_stamp)
+        pos_list.append(snake.pos())
+        x=x+1
+        score.clear()
+        score.write ("score: " + str(x))
+        
     else:
         old_stamp=stamp_list.pop(0)
         snake.clearstamp(old_stamp)
         pos_list.pop(0)
+        
+            
+        
 
     turtle.ontimer(move_snake,TIME_STEP)
 
